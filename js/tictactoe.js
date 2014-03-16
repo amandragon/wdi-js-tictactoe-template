@@ -10,17 +10,19 @@ $(function() {
   var players = [                         // player data
     {
       name:      'Ernie',
-      marker:    '&times;',
+      marker:    'X',
       img_url:   'img/ernie.jpg',
       indicator: $(status_indicators[0])
     },
     {
       name:      'Bert',
-      marker:    '&oslash;',
+      marker:    'O',
       img_url:   'img/bert.jpg',
       indicator: $(status_indicators[1])
     }
   ];
+  // tiles will also have a structure like this ^^
+  // need to know who is on a tile & what is the most useful tile to render next
 
   var current_player;                     // player data
   var turns  = 0;                         // elapsed turns
@@ -28,7 +30,7 @@ $(function() {
   //### There are eight winning combos, the first two are supplied.
   //### What are the other six? Add 'em.
   var win_combos = [
-    [0,1,2], [3,4,5]
+    [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]
   ];
 
   var initialize = function() {
@@ -49,6 +51,7 @@ $(function() {
   };
 
   var handle_click = function() {
+    // only function that has to be scoped (call it from the view)
     //### this function is bound to a click event for each tile on the board
   }
 
