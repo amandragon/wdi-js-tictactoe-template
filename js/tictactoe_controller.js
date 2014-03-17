@@ -89,14 +89,14 @@ game.ticTacToeApp.controller('gameController', [
       }
       return false;
     };
-    $scope.newGame = function() {
-      window.location.href = window.location.href;
-    };
     $scope.isTie = function() {
       if ($scope.tries === tiles.length) {
         return true;
       }
       return false;
+    };
+    $scope.newGame = function() {
+      window.location.href = window.location.href;
     };
     $scope.handleClick = function(tile) {
       if (!tile.clicked) {

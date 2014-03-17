@@ -1,6 +1,6 @@
 game = game or {}
 
-game.ticTacToeApp = angular.module("ticTacToeApp", [])
+game.ticTacToeApp = angular.module "ticTacToeApp", []
 
 game.ticTacToeApp.controller 'gameController', [ "$scope",
   ($scope) ->
@@ -68,9 +68,9 @@ game.ticTacToeApp.controller 'gameController', [ "$scope",
         [0,3,6], [1,4,7], [2,5,8],
         [0,4,8], [2,4,6]
     ]
-    
+
     $scope.currentPlayer = $scope.players[0]
-    
+
     $scope.changeCurrentPlayer = ->                 # Switches current player
       $scope.currentPlayer.indicator = null
 
@@ -80,7 +80,9 @@ game.ticTacToeApp.controller 'gameController', [ "$scope",
         $scope.currentPlayer = $scope.players[0]
 
       $scope.currentPlayer.indicator = "current"
-      return # player data
+      return
+    
+
 
     # $scope.turns = 0 # elapsed turns
 
@@ -89,15 +91,15 @@ game.ticTacToeApp.controller 'gameController', [ "$scope",
         if tiles.indexOf(combo[0]) >= 0 and tiles.indexOf(combo[1]) >= 0 and tiles.indexOf(combo[2]) >= 0
           return true
       return false
-
-    $scope.newGame = ->
-      window.location.href = window.location.href
-      return
       
     $scope.isTie = ->
       if $scope.tries is tiles.length
         return true
       return false
+
+    $scope.newGame = ->
+      window.location.href = window.location.href
+      return
       
     $scope.handleClick = (tile) ->                   # core code
       if not tile.clicked
