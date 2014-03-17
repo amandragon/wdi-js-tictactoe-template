@@ -3,7 +3,7 @@ var game;
 
 game = game || {};
 
-game.ticTacToeApp = angular.module("ticTacToeApp", []);
+game.ticTacToeApp = angular.module('ticTacToeApp', []);
 
 game.ticTacToeApp.controller('gameController', [
   "$scope", function($scope) {
@@ -69,6 +69,7 @@ game.ticTacToeApp.controller('gameController', [
     ];
     $scope.winCombos = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
     $scope.currentPlayer = $scope.players[0];
+    $scope.turns = 0;
     $scope.changeCurrentPlayer = function() {
       $scope.currentPlayer.indicator = null;
       if ($scope.currentPlayer === $scope.players[0]) {

@@ -1,6 +1,6 @@
 game = game or {}
 
-game.ticTacToeApp = angular.module "ticTacToeApp", []
+game.ticTacToeApp = angular.module 'ticTacToeApp', []
 
 game.ticTacToeApp.controller 'gameController', [ "$scope",
   ($scope) ->
@@ -44,12 +44,12 @@ game.ticTacToeApp.controller 'gameController', [ "$scope",
     ]
 
     $scope.tries = 0
-    $scope.endGame =                # End Game need this for baord to display properly
+    $scope.endGame =               
                 show: false
                 message: ""
                 url: ""
 
-    $scope.players = [              # Setup the Players
+    $scope.players = [             
               name: "Ernie"
               marker: "X"
               img_url: "img/ernie.jpg"
@@ -70,6 +70,7 @@ game.ticTacToeApp.controller 'gameController', [ "$scope",
     ]
 
     $scope.currentPlayer = $scope.players[0]
+    $scope.turns = 0 # elapsed turns
 
     $scope.changeCurrentPlayer = ->                 # Switches current player
       $scope.currentPlayer.indicator = null
@@ -81,10 +82,6 @@ game.ticTacToeApp.controller 'gameController', [ "$scope",
 
       $scope.currentPlayer.indicator = "current"
       return
-    
-
-
-    # $scope.turns = 0 # elapsed turns
 
     $scope.isWin = (tiles)->
       for combo in $scope.winCombos
@@ -119,6 +116,12 @@ game.ticTacToeApp.controller 'gameController', [ "$scope",
         $scope.changeCurrentPlayer()
 
     $scope.computerPlay = ->
+      # 1) take the middle if it's open
+      # 2) take the corner (that's not next to the middle)
+      # 3) go for win
+      # 4) prevent loss
+      # 5) take corner
+      # 6) take side
 
 
     return
