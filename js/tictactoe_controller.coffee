@@ -5,7 +5,7 @@ game.ticTacToeApp = angular.module("ticTacToeApp", [])
 ($scope) ->
 
   $scope.board = [
-                position: 0
+              position: 0
               clicked: false
               img_url: null
             ,

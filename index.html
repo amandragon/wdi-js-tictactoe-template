@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="ticTacToeApp">
+<html data-ng-app="ticTacToeApp">
   <head>
     <title>TIC TAC TOE</title>
     <link rel="stylesheet" type="text/css" href="css/reset.min.css">
@@ -8,20 +8,13 @@
     <script src="js/underscore.min.js"></script>
     <script src="js/tictactoe_controller.js"></script>
   </head>
-  <body ng-controller="ticTacToeCtrl" class="container">
-
+  <body ng-controller="gameController">
      <div id="game">
        <ul id="teams">
-        <li>
-          <img src="">
-          <h2>Team <span class="team"></span></h2>
-          <h3 class="player"></h3>
-        </li>
-        <li>
-          <img src="">
-          <h2>Team <span class="team"></span></h2>
-          <h3 class="player"></h3>
-        </li>
+        <li ng-repeat="player in players" class="{{player.indicator}}">
+          <img src="{{player.img_url}}">
+          <h2>Team <span class="team">{{player.marker}}</span></h2>
+          <h3 class="player">{{player.name}}</h3>
       </ul>
       <div id="board">
         <div ng-repeat="tile in board">
@@ -29,13 +22,20 @@
             <div class="boardTile">
               <img src={{tile.img_url}}>
             </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button class="button" ng-click="computerPlay()">Play Computer</button>
+      </div>
+      <div id="results" ng-show="endGame.show" >
+        <h1>{{endGame.message}}</h1>
+        <span class="image">
+          <img src="{{endGame.url}}" />
+        </span>
+        <button ng-click="newGame()">Play Again</button>
+      </div>
     </div>
-    <div id="overlay">
-    </div>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-  <script src="js/underscore.min.js"></script>
-  <script src="js/tictactoe.js"></script>
-  <script src="lib/angular/angular.js"></script>
+
   </body>
 </html>
-
