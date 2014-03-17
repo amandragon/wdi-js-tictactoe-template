@@ -2,7 +2,7 @@ game = game or {}
 
 game.ticTacToeApp = angular.module("ticTacToeApp", [])
 
-game.ticTacToe.controller 'gameController', [ "$scope",
+game.ticTacToeApp.controller 'gameController', [ "$scope",
   ($scope) ->
 
     $scope.board = [

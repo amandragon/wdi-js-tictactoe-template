@@ -5,7 +5,7 @@ game = game || {};
 
 game.ticTacToeApp = angular.module("ticTacToeApp", []);
 
-game.ticTacToe.controller('gameController', [
+game.ticTacToeApp.controller('gameController', [
   "$scope", function($scope) {
     $scope.board = [
       {
