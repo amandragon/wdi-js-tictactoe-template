@@ -1,7 +1,54 @@
-$ ->
+game = game or {}
+
+game.ticTacToeApp = angular.module("ticTacToeApp", [])
+
+($scope) ->
+
+  $scope.board = [
+                position: 0
+              clicked: false
+              img_url: null
+            ,
+              position: 1
+              clicked: false
+              img_url: null
+            ,
+              position: 2
+              clicked: false
+              img_url: null
+            ,
+              position: 3
+              clicked: false
+              img_url: null
+            ,
+              position: 4
+              clicked: false
+              img_url: null
+            ,
+              position: 5
+              clicked: false
+              img_url: null
+            ,
+              position: 6
+              clicked: false
+              img_url: null
+            ,
+              position: 7
+              clicked: false
+              img_url: null
+            ,
+              position: 8
+              clicked: false
+              img_url: null
+    ]
+
+  $scope.tries = 0
+  $scope.endGame =
+    show: false
+    message: ""
+    url: ""
 
   status_indicators = $("#teams li") 
-  tiles = [] 
   players = [ 
     {
       name: "Ernie"
@@ -17,11 +64,21 @@ $ ->
     }
   ]
   
-  
-  current_player = undefined # player data
-  turns = 0 # elapsed turns
+  $scope.current_player = $scope.players[0]
+  $scope.changeCurrentPlayer = ->                 # Switches current player
+    $scope.currentPlayer.indicator = null
 
-  win_combos = [
+    if $scope.currentPlayer == $scope.players[0]
+      $scope.currentPlayer = $scope.players[1]
+    else
+      $scope.currentPlayer = $scope.players[0]
+
+    $scope.currentPlayer.indicator = "current"
+    return # player data
+
+  $scope.turns = 0 # elapsed turns
+
+  $scope.winCombos = [
     [
       0
       1
@@ -63,135 +120,42 @@ $ ->
       6
     ]
   ]
-initialize = ->
-  _(9).times (i) ->
-    tiles.push $("<div/>").attr(
-      id: "tile" + i
-      class: "tile"
-    ).on("click", handle_click).appendTo(board)
-    return
 
-  current_player = _.first(players)
-  player_indicators = _.map(players, (player) ->
-    player.indicator
-  )
-  _.each player_indicators, (indicator, i) ->
-    indicator = $(indicator)
-    player = players[i]
-    $(".team", indicator).html player.marker
-    $(".player", indicator).html player.name
-    $("img", indicator).attr "src", player.img_url
-    indicator.addClass "current"  if player is current_player
-    return
+  $scope.isWin = (tiles)->
+    for combo in $scope.winCombos
+      if tiles.indexOf(combo[0]) >= 0 and tiles.indexOf(combo[1]) >= 0 and tiles.indexOf(combo[2]) >= 0
+        return true
+    return false
 
-  game.fadeIn()
-  return
+    
+  $scope.isTie = ->
+    if $scope.tries is tiles.length
+      return true
+    return false
 
-is_active = (tile) ->
-  tile.hasClass "active"
+  $scope.handleClick = (tile) ->
+    if not tile.clicked
+      $scope.tries += 1
+      tile.img_url = $scope.currentPlayer.img_url
+      tile.clicked = true
+      $scope.currentPlayer.tilesSelected.push tile.position
 
-activate_tile = (tile) ->
-  tile.html current_player.marker
-  tile.addClass "active"
-  tile.data "player", current_player
-  turns++
-  return
+      if $scope.isWin($scope.currentPlayer.tilesSelected)
+        $scope.endGame.show = true
+        $scope.endGame.message = $scope.currentPlayer.name + " is the winner!"
+        $scope.endGame.url = $scope.currentPlayer.img_url
+      else if $scope.isTie()
+        $scope.endGame.show = true
+        $scope.endGame.message = "Tie!"
 
-  
-toggle_player = ->
-  current_player = players[get_current_player_index()]
-  status_indicators.removeClass "current"
-  current_player.indicator.addClass "current"
-  return
+        $scope.changeCurrentPlayer()
 
-  get_current_player_index = ->
-  turns % 2
-
-get_board_data = ->
-  current_player_board_data = []
-  _.each tiles, (tile, i) ->
-    current_player_board_data.push i  if tile.data("player") is current_player
-    return
-  current_player_board_data
-
-  
-is_win = ->
-  board_data = get_board_data()
-  match_found = false
-  _.each win_combos, (combo) ->
-    if _.intersection(combo, board_data).length is combo.length
-      show_combo combo
-      match_found = true
-    return
-  match_found
-
-  
-is_tie = ->
-  turns is tiles.length
-
-  
-handle_win = ->
-  _.each tiles, (tile) ->
-    tile.off "click"
-    return
-
-  update_results
-    img_src: current_player.img_url
-    img_alt: current_player.name
-    message: "Congratulations, <span id=\"winner\">" + current_player.name + "</span>!"
-
-  return
-
-  
-handle_tie = ->
-  update_results
-    img_src: "img/rubberduckie.jpg"
-    img_alt: "Rubber Duckie"
-    message: "Tie Game!"
-
-  return
-
-  update_results = (args) ->
-  results = $("#results")
-  winner_el = $("h1", results)
-  image_el = $(".image", results)
-  button = $("button", results)
-  image = $("<img/>")
-  overlay = $("#overlay")
-  image.attr
-    src: args.img_src
-    alt: args.img_alt
-
-  image_el.html image
-  winner_el.html args.message
-  button.on "click", new_game
-  hide_indicators()
-  setTimeout (->
-    overlay.fadeIn 500
-    results.fadeIn 500
-    return
-  ), 1000
-  return
-
-hide_indicators = ->
-  status_indicators.animate
-    opacity: 0
-  , 2000
-  return
-
-show_combo = (combo) ->
-  _.each combo, (tile_index) ->
-    tiles[tile_index].addClass "combo"
-    return
-
-  return
-
-  
-  new_game = ->
+    
+  $scope.new_game = ->
 
     window.location.href = window.location.href
     return
 
-  
-  initialize()
-  return
+    
+
+return

@@ -15,7 +15,7 @@ img {
   display:block;
 }
 #game {
-  display:none;
+  /*display:all;*/
   position:absolute;
   width:480px;
   height:480px;
